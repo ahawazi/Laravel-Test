@@ -8,9 +8,14 @@ use Tests\TestCase;
 
 class BoardTest extends TestCase
 {
-    public function test_example(): void
+    /** @test */
+    public function user_can_create_a_board(): void
     {
-        $response = $this->get('/');
+        $response = $this->post('/board' ,[
+            'name' => 'My Board',
+            'details' => 'Something about my board',
+
+        ]);
 
         $response->assertStatus(200);
     }
