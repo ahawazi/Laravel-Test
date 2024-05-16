@@ -8,15 +8,20 @@ use Tests\TestCase;
 
 class BoardTest extends TestCase
 {
+    use RefreshDatabase;
     /** @test */
     public function user_can_create_a_board(): void
     {
         $response = $this->post('/board' ,[
-            'name' => 'My Board',
-            'details' => 'Something about my board',
+            'title' => 'My Board',
+            'details' => 'Something about my board.',
 
         ]);
 
-        $response->assertStatus(200);
+        $response->assertOk();
+        $this->assertDatabaseHas('boards',[
+            'title'=> 'My Board',
+            'details'=> 'Something about my board.',
+        ]);
     }
 }
