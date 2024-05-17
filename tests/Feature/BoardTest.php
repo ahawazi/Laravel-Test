@@ -121,4 +121,18 @@ class BoardTest extends TestCase
             'title' => 'New title',
         ]);
     }
+
+    /** @test board update must be validated */
+    public function board_update_must_be_validated()
+    {
+        $user = User::factory()->create();
+        $this->be($user);
+        $board = Board::factory()->for($user)->create();
+
+        $response = $this->patchJson('/board/'.$board->id, [
+            'title'=> 'N',
+        ]);
+
+        $response->assertJsonValidationErrorFor('title');
+    }
 }
