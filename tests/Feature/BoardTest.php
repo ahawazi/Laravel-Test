@@ -39,4 +39,20 @@ class BoardTest extends TestCase
 
         $response->assertUnauthorized();
     }
+
+    /** @test user can create a board without details */
+    public function user_can_create_board_without_details()
+    {
+        $user = User::factory()->create();
+        $this -> be($user);
+
+        $response = $this->postJson('/board', [
+            'title' => 'My Board',
+        ]);
+
+        $response->assertOk();
+        $this->assertDatabaseHas('boards', [
+            'title' => 'My Board',
+        ]);
+    }
 }
