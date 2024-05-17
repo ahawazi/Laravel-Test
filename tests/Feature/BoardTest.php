@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Carbon\Traits\Test;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -14,8 +15,8 @@ class BoardTest extends TestCase
     public function user_can_create_a_board(): void
     {
         $user = User::factory()->create();
-        $this -> be($user);
-        
+        $this->be($user);
+
         $response = $this->postJson('/board', [
             'title' => 'My Board',
             'details' => 'Something about my board.',
@@ -23,9 +24,9 @@ class BoardTest extends TestCase
         ]);
 
         $response->assertOk();
-        $this->assertDatabaseHas('boards',[
-            'title'=> 'My Board',
-            'details'=> 'Something about my board.',
+        $this->assertDatabaseHas('boards', [
+            'title' => 'My Board',
+            'details' => 'Something about my board.',
         ]);
     }
 
@@ -44,7 +45,7 @@ class BoardTest extends TestCase
     public function user_can_create_board_without_details()
     {
         $user = User::factory()->create();
-        $this -> be($user);
+        $this->be($user);
 
         $response = $this->postJson('/board', [
             'title' => 'My Board',
@@ -60,10 +61,23 @@ class BoardTest extends TestCase
     public function board_title_is_required()
     {
         $user = User::factory()->create();
-        $this -> be($user);
+        $this->be($user);
 
         $response = $this->postJson('/board', [
             'details' => 'My Board',
+        ]);
+
+        $response->assertJsonValidationErrorFor('title');
+    }
+
+    /** @test test board title must be more than 3 chars */
+    public function board_title_must_be_more_than_3_chars()
+    {
+        $user = User::factory()->create();
+        $this->be($user);
+
+        $response = $this->postJson('/board', [
+            'title' => 'My',
         ]);
 
         $response->assertJsonValidationErrorFor('title');
