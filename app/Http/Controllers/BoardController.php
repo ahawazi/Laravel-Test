@@ -37,7 +37,11 @@ class BoardController extends Controller
      */
     public function update(Request $request, Board $board)
     {
-        $board->update($request->input());
+        $validated = $request->validate([
+            'title' => 'required|min:3',
+            'details' => 'nullable',
+        ]);
+        $board->update($validated);
         return $board;
     }
 
