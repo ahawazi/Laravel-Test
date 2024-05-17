@@ -9,7 +9,11 @@ Route::get('/', function () {
 });
 
 Route::post('board', function(Request $request) {
-    Board::Create($request->all());
+    $validated = $request->validate([
+        'title' => 'required',
+        'details' => 'nullable',
+    ]);
+    Board::Create($validated);
 })->middleware('auth:sanctum');
 
 require __DIR__.'/auth.php';
