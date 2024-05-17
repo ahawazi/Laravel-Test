@@ -101,5 +101,24 @@ class BoardTest extends TestCase
         ]);
     }
 
+    /** @test user can update their own board */
+    public function user_can_update_their_own_board()
+    {
+        $user = User::factory()->create();
+        $this->be($user);
+        $board = Board::factory()->for($user)->create();
 
+        $response = $this->patchJson('/board/'.$board->id, [
+            'title' => 'New title'
+        ]);
+
+        $response->assertOk();
+        $response->assertExactJson([
+            'title' => 'New title',
+            'details' => $board->details,
+        ]);
+        $this->assertDatabaseHas('boards', [
+            'title' => 'New title',
+        ]);
+    }
 }
