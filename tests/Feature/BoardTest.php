@@ -12,7 +12,7 @@ class BoardTest extends TestCase
     /** @test */
     public function user_can_create_a_board(): void
     {
-        $response = $this->post('/board' ,[
+        $response = $this->post('/board', [
             'title' => 'My Board',
             'details' => 'Something about my board.',
 
@@ -23,5 +23,16 @@ class BoardTest extends TestCase
             'title'=> 'My Board',
             'details'=> 'Something about my board.',
         ]);
+    }
+
+    /** @test guest cannot create a board */
+    public function guest_cannot_create_a_board()
+    {
+        $response = $this->postJson('/board', [
+            'title' => 'My Board',
+            'details' => 'Somethinf aboute me board.'
+        ]);
+
+        $response->assertUnauthorized();
     }
 }
