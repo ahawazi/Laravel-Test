@@ -27,6 +27,7 @@ class BoardTest extends TestCase
         $this->assertDatabaseHas('boards', [
             'title' => 'My Board',
             'details' => 'Something about my board.',
+            'user_id' => $user->id,
         ]);
     }
 
