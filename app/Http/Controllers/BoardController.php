@@ -21,7 +21,7 @@ class BoardController extends Controller
             'title' => 'required|min:3',
             'details' => 'nullable',
         ]);
-        Board::create($validated);
+        $request->user()->boards()->create($validated);
     }
 
     /**
