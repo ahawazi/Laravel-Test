@@ -15,6 +15,11 @@ class Board extends Model
         'details',
     ];
 
+    protected $visible = [
+        'title',
+        'details',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
