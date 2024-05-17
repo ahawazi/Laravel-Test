@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Board;
 use App\Models\User;
 use Carbon\Traits\Test;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -82,5 +83,17 @@ class BoardTest extends TestCase
         ]);
 
         $response->assertJsonValidationErrorFor('title');
+    }
+
+    /** @test user can see their own board */
+    public function user_can_see_their_own_board()
+    {
+        $user = User::factory()->create();
+        $this->be($user);
+        $board = Board::factory()->for($user)->create();
+        
+        $responce = $this->getJson('/board/'.$board->id);
+
+        $responce->assertOk();
     }
 }
