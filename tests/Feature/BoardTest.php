@@ -95,5 +95,11 @@ class BoardTest extends TestCase
         $responce = $this->getJson('/board/'.$board->id);
 
         $responce->assertOk();
+        $responce->assertExactJson([
+            'title' => $board->title,
+            'details' => $board->details,
+        ]);
     }
+
+
 }
