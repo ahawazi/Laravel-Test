@@ -55,4 +55,17 @@ class BoardTest extends TestCase
             'title' => 'My Board',
         ]);
     }
+
+    /** @test board title is required */
+    public function board_title_is_required()
+    {
+        $user = User::factory()->create();
+        $this -> be($user);
+
+        $response = $this->postJson('/board', [
+            'details' => 'My Board',
+        ]);
+
+        $response->assertJsonValidationErrorFor('title');
+    }
 }
