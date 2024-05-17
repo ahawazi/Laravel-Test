@@ -92,10 +92,10 @@ class BoardTest extends TestCase
         $this->be($user);
         $board = Board::factory()->for($user)->create();
         
-        $responce = $this->getJson('/board/'.$board->id);
+        $response = $this->getJson('/board/'.$board->id);
 
-        $responce->assertOk();
-        $responce->assertExactJson([
+        $response->assertOk();
+        $response->assertExactJson([
             'title' => $board->title,
             'details' => $board->details,
         ]);
