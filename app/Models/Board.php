@@ -20,6 +20,17 @@ class Board extends Model
         'details',
     ];
 
+    // by this code we can add the thing to own json and assert the information:
+    // public function toArray(): array
+    // {
+    //     return [
+    //         'title' => $this->title,
+    //         'details' => $this->details,
+    //         'create_at' => $this->created_at->diffForHumans,
+    //         'user' => $this->user->name,
+    //     ];
+    // }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
