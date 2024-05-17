@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BoardController;
 use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -8,12 +9,6 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-Route::post('board', function(Request $request) {
-    $validated = $request->validate([
-        'title' => 'required|min:3',
-        'details' => 'nullable',
-    ]);
-    Board::Create($validated);
-})->middleware('auth:sanctum');
+
 
 require __DIR__.'/auth.php';
