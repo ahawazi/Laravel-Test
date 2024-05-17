@@ -10,6 +10,6 @@ Route::get('/', function () {
 
 Route::post('board', function(Request $request) {
     Board::Create($request->all());
-});
+})->middleware('auth:sanctum');
 
 require __DIR__.'/auth.php';
